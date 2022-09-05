@@ -7,13 +7,14 @@
 import os
 import re
 import glob
-import sys
 
 outputString =""
 
 for i in glob.glob("*"):
     b = re.sub('[^a-zA-Z0-9._-]', "_", i)
     if i!=b:
+        if b.startswith("_"):
+            b = b[1:]
         c = "'"+i+"' '"+b+"'\n"
         os.system('mv '+c)
         outputString+= "'"+i+"' '"+b+"'\n"
