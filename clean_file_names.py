@@ -4,28 +4,30 @@
 # only allow letters, numbers, dot, dash, underscore
 # replace anything else with underscore
 
-import os
+import subprocess
 import re
 import glob
 
-outputString =""
+log = ""
 
-for i in glob.glob("*"):
-    b = re.sub('[^a-zA-Z0-9._-]', "_", i)
-    if i!=b:
-        if b.startswith("_"):
-            b = b[1:]
-        c = "'"+i+"' '"+b+"'\n"
-        os.system('mv '+c)
-        outputString+= "'"+i+"' '"+b+"'\n"
+for filename in glob.glob("*"):
 
-f = open('_file-name-clean.log','w')
-# write a lof of the renamed files, in case something is messed up.
+    clean_filename = re.sub('[^a-zA-Z0-9._-]', "_", filename)
 
-f.write(outputString)
-f.close()
+    if filename!=clean_filename:
 
+        rename_command = ["mv",filename,clean_filename]
+        log = " ".join(rename_command)
 
+        try:
+            subprocess.run(rename_command, check=True)
+        except subprocess.CalledProcessError as e:
+            log += f" Error:{e}"
 
+        log += "/n"
 
+# write a log of the renamed files, in case something is messed up.
+if len(log)>0:
+    with open("_file-name-clean.log","w") as f:
+        f.write(log)
 
