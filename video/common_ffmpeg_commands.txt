@@ -1,0 +1,22 @@
+# extract PNGs from video
+ffmpeg -i video.mov video.%04d.png
+
+# extract PNGs from video (scale to 1920p wide) - default scale is set to "bicubic"
+ffmpeg -i video.mov -vf scale=1920:-1 video.%04d.png
+
+# time slice 
+	# from 10s, duration 2s
+	-ss 00:00:10 -t 00:00:02
+
+	# from 10s to 12s
+	-ss 00:00:10 -to 00:00:12
+
+# convert PNG sequence+ WAV sound to MP4 H265
+ffmpeg -i sound.wav -i images.%05d.png -f mp4 -vcodec libx265 -crf 11 -acodec libmp3lame -aq 2 -r 24 output.mp4
+
+# lossless video and audio codec (FLAC)
+-vcodec ffv1
+
+
+
+
