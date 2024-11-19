@@ -18,5 +18,7 @@ ffmpeg -i sound.wav -i images.%05d.png -f mp4 -vcodec libx265 -crf 11 -acodec li
 -vcodec ffv1
 
 
+# set bit rate
+-b:v 1M
 
 
